@@ -754,9 +754,9 @@ class Method:
         else:
             self.return_type = None
         if "async" in json_node:
-            self.async = bool(json_node["async"])
+            self.is_async = bool(json_node["async"])
         else:
-            self.async = self.return_type is None
+            self.is_async = self.return_type is None
         self.arguments = []
         if "arguments" in json_node:
             for arg in json_node["arguments"]:
@@ -1966,7 +1966,7 @@ private:
             method_index = self._module.methods.index(method)
             switch_body += "case 0x%04x: {\n" % method_index
             switch_body += "    /* %s */\n" % method.name.get_ascii_value()
-            if method.async:
+            if method.is_async:
                 switch_body += "    Q_EMIT asyncRun(index, args);\n"
                 switch_body += "    return ES_Async;\n"
             else:
@@ -2057,7 +2057,7 @@ private:
         for method in self._module.methods:
             assert isinstance(method, Method)
             method_index = self._module.methods.index(method)
-            if method.async:
+            if method.is_async:
                 switch_body += "case 0x%04x: {\n" % method_index
                 switch_body += "    /* %s */\n" % method.name.get_ascii_value()
                 args = []
@@ -2193,7 +2193,7 @@ private:
         """
         body = "module_ = new %s(this);\n" % self._module.get_module_cpp_class_name()
         methods = self._module.methods
-        async_methods = list(filter(lambda method: method.async, methods))
+        async_methods = list(filter(lambda method: method.is_async, methods))
         if self._module.settings:
             body += self._module.settings.get_settings_page_creation("settingsPage_").strip() + "\n\n"
         if async_methods:
@@ -2495,7 +2495,7 @@ class AsyncThreadCppClass(CppClassBase):
         :return:    implementation of void run()
         """
         switch_body = ""
-        methods = filter(lambda module_method: module_method.async, self._module.methods)
+        methods = filter(lambda module_method: module_method.is_async, self._module.methods)
         for method in methods:
             assert isinstance(method, Method)
             method_index = self._module.methods.index(method)
@@ -3749,10 +3749,10 @@ def main_help(args):
     """
     message = __doc__[:__doc__.index("===")].strip() + "\n"
     if "--help" in args:
-        sys.stdout.write(message.encode("utf-8"))
+        sys.stdout.write(message)
         return 0
     else:
-        sys.stderr.write(message.encode("utf-8"))
+        sys.stderr.write(message)
         return 127
 
 
