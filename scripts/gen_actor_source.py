@@ -1020,6 +1020,22 @@ class Module:
         result = Module(module_dir, os.path.split(file_name)[1], data)
         return result
 
+    @classmethod
+    def create(cls, file_name):
+        """
+        Create empty module definition as JSON file
+
+        :type   file_name:  unicode
+        :param  file_name:  a file name to read from
+        :rtype:             Module
+        :return:            Kumir module object
+        """
+        data = json.loads("{}")
+        absolute_path = os.path.abspath(file_name)
+        module_dir = os.path.dirname(absolute_path)
+        result = Module(module_dir, os.path.split(file_name)[1], data)
+        return result
+
     def get_module_cpp_class_name(self):
         """
         Module class name to be implemented by developer
