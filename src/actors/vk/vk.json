@@ -1,0 +1,71 @@
+{
+	"name": {
+		"ascii": "VK",
+		"ru_RU": "ВК"
+	},
+	"uses": [
+		"_attachment",
+		"_message"
+	],
+	"methods": [
+		{
+			"name": {
+				"ascii": "Authorize",
+				"ru_RU": "авторизация"
+			},
+			"async": false,
+			"arguments": [
+				{
+					"baseType": "string",
+					"name": "token"
+				}
+			]
+		},
+		{
+			"name": {
+				"ascii": "Send Message",
+				"ru_RU": "Отправить сообщение"
+			},
+			"arguments": [
+				{
+					"name": "message",
+					"baseType": "message"
+				}
+			]
+		},
+		{
+			"name": {
+				"ascii": "Start Long Polling",
+				"ru_RU": "Запустить прослушивание"
+			},
+			"async": true
+		},
+		{
+			"name": {
+				"ascii": "Stop Long Polling",
+				"ru_RU": "Остановить прослушивание"
+			}
+		},
+		{
+			"name": {
+				"ascii": "Messages Available",
+				"ru_RU": "Есть сообщения"
+			},
+			"returnType": "bool"
+		},
+		{
+			"name": {
+				"ascii": "Get New Messages",
+				"ru_RU": "Получить сообщения"
+			},
+			"arguments": [
+				{
+					"name": "messagesList",
+					"baseType": "messages",
+					"dim": 1,
+					"access": "out"
+				}
+			]
+		}
+	]
+}

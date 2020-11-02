@@ -963,7 +963,7 @@ class Module:
         """
         assert isinstance(json_node, dict)
         assert "name" in json_node
-        assert "methods" in json_node
+        """assert "methods" in json_node"""
         assert isinstance(json_file_name, str) or isinstance(json_file_name, unicode)
         self.name = Name(json_node["name"])
         self.types = []

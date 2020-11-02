@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.0)
 find_package(PythonInterp 3.2.0 REQUIRED)
 message(STATUS "Cmake prefix path: ${CMAKE_PREFIX_PATH}")
 
+set(USE_QT 5)
+set(CMAKE_CXX_STANDARD 17)
+
 # Query for version info and pass it as compile definitions
 if(EXISTS "${CMAKE_SOURCE_DIR}/version_info.cmake")
     include(${CMAKE_SOURCE_DIR}/version_info.cmake)

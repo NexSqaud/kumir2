@@ -1,0 +1,161 @@
+{
+    "name": {
+        "ascii": "_Message",
+        "ru_RU": "_Сообщение"
+    },
+    "uses": [
+        "_attachment"
+    ],
+    "types": [
+        {
+            "name": {
+                "ascii": "message",
+                "ru_RU": "сообщение"
+            },
+            "fields": [
+                {
+                    "name": "id",
+                    "baseType": "int"
+                },
+                {
+                    "name": "date",
+                    "baseType": "int"
+                },
+                {
+                    "name": "peerId",
+                    "baseType": "int"
+                },
+                {
+                    "name": "fromId",
+                    "baseType": "int"
+                },
+                {
+                    "name": "text",
+                    "baseType": "string"
+                },
+                {
+                    "name": "randomId",
+                    "baseType": "int"
+                },
+                {
+                    "name": "ref",
+                    "baseType": "string"
+                },
+                {
+                    "name": "refSource",
+                    "baseType": "string"
+                },
+                {
+                    "name": "attachments",
+                    "baseType": "attachment",
+                    "dim": 1
+                },
+                {
+                    "name": "important",
+                    "baseType": "bool"
+                },
+                {
+                    "name": "payload",
+                    "baseType": "string"
+                },
+                {
+                    "name": "forwardedMessages",
+                    "baseType": "message",
+                    "dim": 1
+                },
+                {
+                    "name": "replyMessage",
+                    "baseType": "message"
+                },
+                {
+                    "name": "updateTime",
+                    "baseType": "int"
+                }
+            ]
+        }
+    ],
+    "methods": [
+        {
+            "name": {
+                "ascii": "="
+            },
+            "returnType": "bool",
+            "arguments": [
+                {
+                    "name": "x",
+                    "baseType": "message"
+                },
+                {
+                    "name": "y",
+                    "baseType": "message"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "<>"
+            },
+            "returnType": "bool",
+            "arguments": [
+                {
+                    "name": "x",
+                    "baseType": "message"
+                },
+                {
+                    "name": "y",
+                    "baseType": "message"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "Create Message",
+                "ru_RU": "Создать сообщение"
+            },
+            "returnType": "message",
+            "arguments": [
+                {
+                    "name": "text",
+                    "baseType": "string"
+                },
+                {
+                    "name": "peerId",
+                    "baseType": "int"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "Attach Attachment",
+                "ru_RU": "Прикрепить вложение"
+            },
+            "arguments": [
+                {
+                    "name": "message",
+                    "baseType": "message"
+                },
+                {
+                    "name": "attachment",
+                    "baseType": "attachment"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "Attach Attachments",
+                "ru_RU": "Прикрепить вложения"
+            },
+            "arguments": [
+                {
+                    "name": "message",
+                    "baseType": "message"
+                },
+                {
+                    "name": "attachment",
+                    "baseType": "attachment",
+                    "dim": 1
+                }
+            ]
+        }
+    ]
+}

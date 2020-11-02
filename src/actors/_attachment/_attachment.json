@@ -1,0 +1,93 @@
+{
+    "name": {
+        "ascii": "_Attachment",
+        "ru_RU": "_Вложение"
+    },
+    "types": [
+        {
+            "name": {
+                "ascii": "attachment",
+                "ru_RU": "вложение"
+            },
+            "fields": [
+                {
+                    "name": "ownerId",
+                    "baseType": "int"
+                },
+                {
+                    "name": "id",
+                    "baseType": "int"
+                },
+                {
+                    "name": "accessKey",
+                    "baseType": "string"
+                }
+            ]
+        }
+    ],
+    "methods": [
+        {
+            "name": {
+                "ascii": "input",
+                "ru_RU": "ввод"
+            },
+            "returnType": "attachment",
+            "arguments": [
+                {
+                    "name": "x",
+                    "baseType": "string"
+                },
+                {
+                    "name": "ok",
+                    "baseType": "bool",
+                    "access": "out"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "output",
+                "ru_RU": "вывод"
+            },
+            "returnType": "string",
+            "arguments": [
+                {
+                    "name": "x",
+                    "baseType": "attachment"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "="
+            },
+            "returnType": "bool",
+            "arguments": [
+                {
+                    "name": "x",
+                    "baseType": "attachment"
+                },
+                {
+                    "name": "y",
+                    "baseType": "attachment"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "<>"
+            },
+            "returnType": "bool",
+            "arguments": [
+                {
+                    "name": "x",
+                    "baseType": "attachment"
+                },
+                {
+                    "name": "y",
+                    "baseType": "attachment"
+                }
+            ]
+        }
+    ]
+}
