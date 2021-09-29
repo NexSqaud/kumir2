@@ -1,6 +1,14 @@
 Kumir 2.x programming system
 ============================
 
+Fork features
+-------------
+- HTTP async requests
+- Dynamic objects
+- Vcpkg support
+- VS Code build support
+- Fixed build on Windows
+
 ***NOTE*** Maintainers from AltLinux please read this: [MAINTAINERS_ru.md](MAINTAINERS_ru.md) (in Russian).
 
 Branches and tags
@@ -24,30 +32,24 @@ Build requirements (Linux)
 5. Boost 1.54.0 development files. Required Boost files are bundled into
 this repository, but you can use your distribution provided package by 
 deleting `src/3rdparty/boost-1.54.0`
-6. LLVM development files version at least 3.4 are optional to build native code
-generation feauture
-7. Python development files at least 3.2 in case of building branch `python`
 
 Build requirements (Windows)
 ----------------------------
 
 1. CMake version 2.8.11. There is known regression in version 2.8.12, so do
 not use it
-2. Python interpreter version at least 2.7.0
-3. Microsoft Visual Studio Express 2010 or 2012
-4. Qt4 SDK version at least 4.8.0. Qt5 not well-tested on this platform
+2. Python interpreter version at least 3
+3. Microsoft Visual Studio 2019 Community
+4. Qt5 installed with `vcpkg`
 5. Boost and ZLib development files which bundled in this repository
-6. Python development files at least 3.2 in case of building branch `python`
 
-In order to build native code generation feature on Windows you must use
-MSVC2012 and provide several requirements:
+Install libraries with vcpkg
+----------------------------
 
-1. Boost version at least 1.57.0 due to incompatibility of version 1.54 with
-MSVC2012
-2. LLVM development files version *exact* 3.4.0 prebuilt using *MSVC2012 
-toolchain*
-3. CLang compiler version *exact* 3.4.0 prebuilt using *MinGW 4.8 toolchain* 
-4. MinGW version *exact* 4.6.1 files
+1. Download and install [vcpkg](https://github.com/microsoft/vcpkg)
+2. Install user-wide intergation `vcpkg integrate install`
+3. Install Qt5 libraries `vcpkg install qt5:TRIPLET qt5-script:TRIPLET`
+Triplet is `platform-os` pair, example `x64-windows`
 
 Build and source-install instructions (Linux)
 ---------------------------------------------
@@ -74,76 +76,47 @@ To install in `/usr/local/` prefix run `make install`.
 In order to provide custom prefix, you can pass option
 `-DCMAKE_INSTALL_PREFIX=` to cmake.
 
-Build instructions (Windows)
+Build instructions (Windows), w/o VS Code
 ----------------------------
 
-Meet all requirements and ensure that `qmake.exe`, `cmake.exe` and `python.exe`
-are present in system `PATH` environment variable. Also ensure `QTDIR` and
-`QMAKESPEC` environment variables are set to match your Qt and compiler
-toolchain installation.
+Meet all requirements and install all libraries and tools.
 
 Start Microsoft Visual Stido Tools console.
 
 Within the console create subdirectory `build` of project root, walk there and
 run:
 ```
-cmake -DCMAKE_BUILD_TYPE=Release -G "NMake Makefiles" ..
+cmake -DUSE_QT=5 -DCMAKE_BUILD_TYPE=RelWithDebInfo -Wno-dev -DBUILD_TRIPLET=TRIPLET -G "NMake Makefiles" -B . -S ..
 nmake
 ```
 
-This will build entire project into `build/Release` directory.
+Where `TRIPLET` is target triplet
 
-To build native code generation feature there are additional options required
-to be passed to cmake:
+This will build entire project into `build/` directory.
 
-1. `-DCLANG_EXECUTABLE=` - path to `clang.exe`, which built using MinGW 
-toolchain. This CLang compiler is used to generate LLVM bytecode for standard 
-and runtime libraries
-2. `-DLLVM_ROOT=`, `-DLlvm_INCLUDE_DIR=` and `-DLlvm_CONFIG_EXECUTABLE=` - 
-paths to prebuild LLVM root directory, `include` subdirectory and 
-`llvm-config.exe` executable
-3. `-DBOOST_ROOT=` - path to Boost root version at least 1.57.0. Remove 
-bundled boost first
+Build instructions (Windows), w/o VS Code
+----------------------------
+
+Meet all requirements and install all libraries and tools.
+
+Start Microsoft Visual Stido Code.
+
+Press `Ctrl + Shift + B`
+
+This will build entire project into `build/` directory.
 
 Deployment 3-rd party libraries (Windows)
 -----------------------------------------
 
 The following files must be copied into `bin` build subdirectory:
 ```
-phonon4.dll
-QtCore4.dll
-QtSql4.dll
-QtDeclarative4.dll
-QtGui4.dll
-QtNetwork4.dll
-QtOpenGL4.dll
-QtScript4.dll
-QtSvg4.dll
-QtWebKit4.dll
-QtXml4.dll
-QtXmlPatterns4.dll
+Qt5Core.dll
+Qt5Sql.dll
+Qt5Gui.dll
+Qt5Network.dll
+Qt5OpenGL.dll
+Qt5Script.dll
+Qt5Svg.dll
+Qt5Xml.dll
 ```
 
-In order to use native code generation feature the following files from MinGW 
-*version 4.6.1* must be copied into `llvm-mingw` build subdirectory:
-```
-as.exe
-crt2.o
-crtbegin.o
-crtend.o
-ld.exe
-libadvapi32.a
-libgcc.a
-libgcc_s_dw2-1.dll
-libkernel32.a
-libmingw32.a
-libmingwex.a
-libmoldname.a
-libmsvcrt.a
-libpthread.a
-libshell32.a
-libstdc++-6.dll
-libstdc++.a
-libuser32.a
-llc.exe
-```
