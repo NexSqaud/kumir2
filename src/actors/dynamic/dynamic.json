@@ -1,0 +1,291 @@
+{
+    "name": {
+        "ascii": "Dynamic",
+        "ru_RU": "Объект"
+    },
+    "types": [
+        {
+            "name": {
+                "ascii": "dynamic",
+                "ru_RU": "объект"
+            },
+            "fields": [
+                {
+                    "name": "key",
+                    "baseType": "string"
+                }
+            ]
+        }
+    ],
+    "methods": [
+        {
+            "name": {
+                "ascii": "create_dynamic",
+                "ru_RU": "создать_объект"
+            },
+            "returnType": "dynamic"
+        },
+        {
+            "name": {
+                "ascii": "contains_property",
+                "ru_RU": "есть_поле"
+            },
+            "returnType": "bool",
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                },
+                {
+                    "name": "key",
+                    "baseType": "string"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "is_array",
+                "ru_RU": "является_массивом"
+            },
+            "returnType": "bool",
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "array_length",
+                "ru_RU": "длина_массива"
+            },
+            "returnType": "int",
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "get_property",
+                "ru_RU": "получить_поле"
+            },
+            "returnType": "dynamic",
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                },
+                {
+                    "name": "key",
+                    "baseType": "string"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "get_int",
+                "ru_RU": "получить_цел"
+            },
+            "returnType": "int",
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "get_float",
+                "ru_RU": "получить_вещ"
+            },
+            "returnType": "double",
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "get_bool",
+                "ru_RU": "получить_лог"
+            },
+            "returnType": "bool",
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "get_string",
+                "ru_RU": "получить_лит"
+            },
+            "returnType": "string",
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "set_int",
+                "ru_RU": "сохранить_цел"
+            },
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                },
+				{
+					"name": "key",
+					"baseType": "string"
+				},
+                {
+                    "name": "value",
+                    "baseType": "int"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "set_float",
+                "ru_RU": "сохранить_вещ"
+            },
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                },
+				{
+					"name": "key",
+					"baseType": "string"
+				},
+                {
+                    "name": "value",
+                    "baseType": "double"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "set_bool",
+                "ru_RU": "сохранить_лог"
+            },
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                },
+				{
+					"name": "key",
+					"baseType": "string"
+				},
+                {
+                    "name": "value",
+                    "baseType": "bool"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "set_string",
+                "ru_RU": "сохранить_лит"
+            },
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                },
+				{
+					"name": "key",
+					"baseType": "string"
+				},
+                {
+                    "name": "value",
+                    "baseType": "string"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "set_property",
+                "ru_RU": "сохранить_поле"
+            },
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                },
+                {
+                    "name": "key",
+                    "baseType": "string"
+                },
+                {
+                    "name": "value",
+                    "baseType": "dynamic"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "delete_object",
+                "ru_RU": "удалить_объект"
+            },
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "from_json",
+                "ru_RU": "объект_из_json"
+            },
+            "returnType": "dynamic",
+            "arguments": [
+                {
+                    "name": "json",
+                    "baseType": "string"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "to_json",
+                "ru_RU": "объект_в_json"
+            },
+            "returnType": "string",
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                }
+            ]
+        },
+        {
+            "name": {
+                "ascii": "debug_string"
+            },
+            "returnType": "string",
+            "arguments": [
+                {
+                    "name": "obj",
+                    "baseType": "dynamic"
+                }
+            ]
+        }
+    ]
+}

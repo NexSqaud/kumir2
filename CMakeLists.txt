@@ -1,3 +1,19 @@
+set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
+
+if(DEFINED BUILD_TRIPLET)
+    set(TRIPLET ${BUILD_TRIPLET})
+elseif(DEFINED ENV{VCPKG_DEFAULT_TRIPLET})
+    set(TRIPLET $ENV{VCPKG_DEFAULT_TRIPLET})
+endif()
+
+set(VCPKG_PREFIX_PATH "$ENV{VCPKG_ROOT}/installed/${TRIPLET}/share")
+
+set(Qt5_DIR "${VCPKG_PREFIX_PATH}/cmake/Qt5")
+#set(Qt5_DIR "${VCPKG_PREFIX_PATH}/cmake/Qt5Script")
+set(nlohmann_json_DIR "${VCPKG_PREFIX_PATH}/nlohmann_json")
+
+set(CMAKE_CXX_STANDARD 17)
+
 project(Kumir2)
 cmake_minimum_required(VERSION 3.0)
 find_package(PythonInterp 3.2.0 REQUIRED)

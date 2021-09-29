@@ -1013,7 +1013,7 @@ class Module:
         :return:            Kumir module object
         """
         f = open(file_name, 'r', encoding="utf-8")
-        data = json.load(f, encoding="utf-8")
+        data = json.load(f)
         f.close()
         absolute_path = os.path.abspath(file_name)
         module_dir = os.path.dirname(absolute_path)

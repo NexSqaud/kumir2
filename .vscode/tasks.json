@@ -1,0 +1,76 @@
+{
+    "version": "2.0.0",
+    "windows": {
+        "options": {
+            "cwd": "${workspaceFolder}",
+            "shell": {
+                "executable": "cmd.exe",
+                "args": [
+                    "/C",
+                    "${workspaceFolder}\\setup.bat",
+                    "&"
+                ],
+            }
+        }
+    },
+    "tasks": [
+        {
+            "label": "Clear build folder",
+            "type": "shell",
+            "command": "del /s /q \"${workspaceFolder}\\build\\*\"",
+            "options": {
+                "shell": {
+                    "executable": "cmd.exe",
+                    "args": [
+                        "/C"
+                    ]
+                }
+            }
+        },
+        {
+            "label": "Create build directory",
+            "type": "shell",
+            "command": "mkdir build"
+        },
+        {
+            "label": "Run CMake",
+            "type": "shell",
+            "command": "cmake -DUSE_QT=5 -DCMAKE_BUILD_TYPE=RelWithDebInfo -Wno-dev -DBUILD_TRIPLET=x64-windows -G \"NMake Makefiles\" -B . -S ..",
+            "options": {
+                "cwd": "build/"
+            }
+        },
+        {
+            "label": "Run NMake",
+            "type": "shell",
+            "command": "nmake",
+            "options": {
+                "cwd": "build/",
+            }
+        },
+        {
+            "label": "Build",
+            "dependsOn": [
+                "Run NMake"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Clean build",
+            "dependsOn": [
+                "Clear build folder",
+                "Run CMake",
+                "Run NMake"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        }
+    ]
+}

@@ -1,0 +1,126 @@
+{
+	"name": {
+		"ascii": "HTTP"
+	},
+	"types": [
+		{
+			"name": {
+				"ascii": "request",
+				"ru_RU": "запрос"
+			},
+			"fields": [
+				{
+					"name": "key",
+					"baseType": "string"
+				}
+			]
+		}
+	],
+	"methods": [
+		{
+			"name": {
+				"ascii": "create_request",
+				"ru_RU": "создать_запрос"
+			},
+			"returnType": "request",
+			"arguments": [
+				{
+					"name": "baseUrl",
+					"baseType": "string"
+				}
+			]
+		},
+		{
+			"name": {
+				"ascii": "add_to_query",
+				"ru_RU": "добавить_в_запрос"
+			},
+			"arguments": [
+				{
+					"name": "req",
+					"baseType": "request"
+				},
+				{
+					"name": "key",
+					"baseType": "string"
+				},
+				{
+					"name": "value",
+					"baseType": "string"
+				}
+			]
+		},
+		{
+			"name": {
+				"ascii": "clear_query",
+				"ru_RU": "очистить_запрос"
+			},
+			"arguments": [
+				{
+					"name": "req",
+					"baseType": "request"
+				}
+			]
+		},
+		{
+			"name": {
+				"ascii": "process_request",
+				"ru_RU": "выполнить_запрос"
+			},
+			"async": false,
+			"arguments": [
+				{
+					"name": "req",
+					"baseType": "request"
+				},
+				{
+					"name": "requestPath",
+					"baseType": "string"
+				},
+				{
+					"name": "type",
+					"baseType": "int"
+				}
+			]
+		},
+		{
+			"name": {
+				"ascii": "request_completed",
+				"ru_RU": "запрос_завершен"
+			},
+			"returnType": "bool",
+			"arguments": [
+				{
+					"name": "req",
+					"baseType": "request"
+				}
+			]
+		},
+		{
+			"name": {
+				"ascii": "request_successful",
+				"ru_RU": "запрос_успешен"
+			},
+			"returnType": "bool",
+			"arguments": [
+				{
+					"name": "req",
+					"baseType": "request"
+				}
+			]
+		},
+		{
+			"name": {
+				"ascii": "get_response",
+				"ru_RU": "получить_ответ"
+			},
+			"returnType": "string",
+			"arguments": [
+				{
+					"name": "req",
+					"baseType": "request"
+				}
+			]
+		}
+	]
+}
