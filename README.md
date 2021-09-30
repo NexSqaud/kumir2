@@ -94,7 +94,7 @@ Where `TRIPLET` is target triplet
 
 This will build entire project into `build/` directory.
 
-Build instructions (Windows), w/o VS Code
+Build instructions (Windows), with VS Code
 ----------------------------
 
 Meet all requirements and install all libraries and tools.
