@@ -39,7 +39,7 @@ Build requirements (Windows)
 1. CMake version 2.8.11. There is known regression in version 2.8.12, so do
 not use it
 2. Python interpreter version at least 3
-3. Microsoft Visual Studio 2019 Community
+3. Microsoft Visual Studio 2022 Community
 4. Qt5 installed with `vcpkg`
 5. Boost and ZLib development files which bundled in this repository
 
@@ -94,7 +94,7 @@ Where `TRIPLET` is target triplet
 
 This will build entire project into `build/` directory.
 
-Build instructions (Windows), with VS Code
+Build instructions (Windows), w/ VS Code
 ----------------------------
 
 Meet all requirements and install all libraries and tools.

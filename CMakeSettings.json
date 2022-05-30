@@ -14,7 +14,7 @@
       "variables": [
         {
           "name": "CMAKE_TOOLCHAIN_FILE",
-          "value": "C:\\Users\\tf2g3\\vcpkg\\vcpkg\\scripts\\buildsystems\\vcpkg.cmake"
+          "value": "$ENV{VCPKG_ROOT}\\scripts\\buildsystems\\vcpkg.cmake"
         }
       ]
     }
