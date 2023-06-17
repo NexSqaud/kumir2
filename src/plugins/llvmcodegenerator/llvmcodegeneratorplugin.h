@@ -1,8 +1,8 @@
 #ifndef LLVMCODEGENERATORPLUGIN_H
 #define LLVMCODEGENERATORPLUGIN_H
 
-#include "extensionsystem/kplugin.h"
-#include "interfaces/generatorinterface.h"
+#include <kumir2-libs/extensionsystem/kplugin.h>
+#include <kumir2/generatorinterface.h>
 
 #include <QObject>
 #include <llvm/Config/llvm-config.h>
@@ -17,7 +17,7 @@ class LLVMCodeGeneratorPlugin
 {
     Q_OBJECT
 #if QT_VERSION >= 0x050000
-    Q_PLUGIN_METADATA(IID "kumir2.LLVMCodeGenerator" FILE "")
+    Q_PLUGIN_METADATA(IID "kumir2.LLVMCodeGenerator")
 #endif
     Q_INTERFACES(Shared::GeneratorInterface)
 
@@ -41,6 +41,7 @@ public:
     inline void updateSettings(const QStringList &) {}
 
 protected:
+	void createPluginSpec();
     QString initialize(const QStringList &configurationArguments,
                        const ExtensionSystem::CommandLine &runtimeArguments);
     static void fixMultipleTypeDeclarations(QByteArray & data);

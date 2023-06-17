@@ -1,3 +1,5 @@
+set(CMAKE_CXX_STANDARD 17)
+
 project(Kumir2)
 cmake_minimum_required(VERSION 3.0)
 find_package(PythonInterp 3.2.0 REQUIRED)

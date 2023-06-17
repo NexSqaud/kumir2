@@ -180,25 +180,26 @@ QString PluginManagerImpl::loadPlugin(PluginSpec spec, const QList<PluginSpec> &
 
     spec.libraryFileName = libraryPath.toUtf8();
 
-    QPluginLoader loader(spec.libraryFileName);
-    if (!loader.load()) {
-        return QString("Can't load module %1: %2")
-                .arg(QString::fromLatin1(spec.name))
-                .arg(loader.errorString());
-    }
-    KPlugin * plugin = qobject_cast<KPlugin*>(loader.instance());
-    if (!plugin) {
-        return QString("Plugin %1 is not valid (does not implement interface KPlugin)");
-        loader.unload();
-    }
-    plugin->createPluginSpec();
-    plugin->_pluginSpec.arguments = spec.arguments;
-    plugin->_pluginSpec.main = spec.main;
-    plugin->_pluginSpec.nonStandardPluginDir = nonStandardPathToUse;
-    plugin->_state = KPlugin::Loaded;
-    plugin->_settings = SettingsPtr(new Settings(QString::fromLatin1(spec.name)));
-    objects.append(plugin);
-    return "";
+	QPluginLoader loader(spec.libraryFileName);
+	loader.setLoadHints(QLibrary::ResolveAllSymbolsHint);
+	if (!loader.load()) {
+		return QString("Can't load module %1: %2")
+			.arg(QString::fromLatin1(spec.name))
+			.arg(loader.errorString());
+	}
+	KPlugin *plugin = qobject_cast<KPlugin *>(loader.instance());
+	if (!plugin) {
+		return QString("Plugin %1 is not valid (does not implement interface KPlugin)");
+		loader.unload();
+	}
+	plugin->createPluginSpec();
+	plugin->_pluginSpec.arguments = spec.arguments;
+	plugin->_pluginSpec.main = spec.main;
+	plugin->_pluginSpec.nonStandardPluginDir = nonStandardPathToUse;
+	plugin->_state = KPlugin::Loaded;
+	plugin->_settings = SettingsPtr(new Settings(QString::fromLatin1(spec.name)));
+	objects.append(plugin);
+	return "";
 }
 
 QString PluginManagerImpl::initializePlugin(KPlugin * entryPoint)

@@ -1,27 +1,12 @@
 project(LLVMCodeGenerator)
-cmake_minimum_required(VERSION 3.0.0)
+#cmake_minimum_required(VERSION 3.0.0)
+#find_package(Kumir2 REQUIRED)
+kumir2_use_qt(Core)
 
-if(NOT DEFINED USE_QT)
-    set(USE_QT 4)
-endif(NOT DEFINED USE_QT)
+find_package(LLVM COMPONENTS Linker BitReader BitWriter AsmParser REQUIRED)
 
-if(${USE_QT} GREATER 4)
-    # Find Qt5
-    find_package(Qt5 5.3.0 COMPONENTS Core REQUIRED)
-    include_directories(${Qt5Core_INCLUDE_DIRS} BEFORE)
-    set(QT_LIBRARIES ${Qt5Core_LIBRARIES})
-else()
-    # Find Qt4
-    set(QT_USE_QTMAIN 1)
-    find_package(Qt4 4.7.0 COMPONENTS QtCore REQUIRED)
-    include(${QT_USE_FILE})
-endif()
-
-find_package(Llvm COMPONENTS Linker BitReader BitWriter AsmParser REQUIRED)
-
-add_definitions(${Llvm_DEFINITIONS})
-include_directories(${Llvm_INCLUDE_DIR})
-include(../../kumir2_plugin.cmake)
+add_definitions(${LLVM_DEFINITIONS})
+include_directories(${LLVM_INCLUDE_DIR})
 
 if(MSVC)
     add_definitions(-D_SCL_SECURE_NO_WARNINGS)
@@ -34,13 +19,15 @@ if(NOT WIN32)
     set(DEP_LIBS dl pthread)
 endif()
 
+set(LLVM_API_VERSION "${LLVM_VERSION_MAJOR}.${LLVM_VERSION_MINOR}")
+
 set(SOURCES
-    llvmcodegeneratorplugin.cpp
-    llvmgenerator.cpp
-    nametranslator.cpp
-    llvm_module_${Llvm_API_VERSION}.cpp
-    llvm_function_${Llvm_API_VERSION}.cpp
-    llvm_type_${Llvm_API_VERSION}.cpp
+	llvmcodegeneratorplugin.cpp
+	llvmgenerator.cpp
+	nametranslator.cpp
+	llvm_module_${LLVM_API_VERSION}.cpp
+	llvm_function_${LLVM_API_VERSION}.cpp
+	llvm_type_${LLVM_API_VERSION}.cpp
 )
 
 set(MOC_HEADERS
@@ -51,23 +38,30 @@ set(EXLIB_SOURCES
     stdlib_c.cpp
 )
 
-if(${USE_QT} GREATER 4)
-    qt5_wrap_cpp(MOC_SOURCES ${MOC_HEADERS})
-else()
-    qt4_wrap_cpp(MOC_SOURCES ${MOC_HEADERS})
-endif()
-copySpecFile(LLVMCodeGenerator)
-add_library(LLVMCodeGenerator SHARED ${MOC_SOURCES} ${SOURCES})
+kumir2_wrap_cpp(MOC_SOURCES ${MOC_HEADERS})
+
+#set(PLUGIN_OUTPUT_PATH "${CMAKE_BINARY_DIR}/${KUMIR2_PLUGINS_DIR}")
+#copySpecFile(LLVMCodeGenerator)
+
+#add_library(LLVMCodeGenerator SHARED ${MOC_SOURCES} ${SOURCES})
 #handleTranslation(LLVMCodeGenerator)
-target_link_libraries(LLVMCodeGenerator
-    ${Llvm_LD_FLAGS}
-    ${Llvm_LIBRARIES}
-    ${DEP_LIBS}
-    ${QT_LIBRARIES}
-    ExtensionSystem
-    DataFormats
-    ErrorMessages
+#target_link_libraries(LLVMCodeGenerator
+#	${Llvm_LD_FLAGS}
+#	${Llvm_LIBRARIES}
+#	${DEP_LIBS}
+#	${QT_LIBRARIES}
+#	ExtensionSystem
+#	DataFormats
+#	ErrorMessages
+#)
+
+kumir2_add_plugin(
+	NAME      LLVMCodeGenerator
+	SOURCES   ${MOC_SOURCES} ${SOURCES} #${EXLIB_SOURCES}
+	LIBRARIES ${QT_LIBRARIES} ${DEP_LIBS} ${LLVM_LIBRARIES} LLVM ExtensionSystem DataFormats ErrorMessages
 )
+
+set(SHARE_PATH "${CMAKE_BINARY_DIR}/${KUMIR2_RESOURCES_DIR}")
 
 if(WIN32)
 #    exec_program(${MINGW_ROOT}/bin/gcc ARGS "--version" OUTPUT_VARIABLE GCC_VERSION_OUTPUT)
@@ -115,41 +109,44 @@ if(WIN32)
 #            ${CMAKE_CURRENT_BINARY_DIR}/stdlib_preproc.cxx
 #    )
 
-    add_custom_target(
-        stdlib.llvm
-        ALL
-        DEPENDS stdlib_c.h stdlib_c.cpp dummy_sjlj.cpp
-        COMMAND ${CLANG_EXECUTABLE} -c -std=gnu++0x -fno-exceptions -emit-llvm
-            -DUSE_MINGW_TOOLCHAIN
-            -I${CMAKE_SOURCE_DIR}/src/shared
-            -o ${SHARE_PATH}/llvmcodegenerator/stdlib.bc
-            ${CMAKE_CURRENT_SOURCE_DIR}/stdlib_c.cpp
-    )
+	add_custom_target(
+		stdlib.llvm
+		ALL
+		DEPENDS stdlib_c.h stdlib_c.cpp dummy_sjlj.cpp
+		COMMAND ${CLANG_EXECUTABLE} -c -std=gnu++0x -fno-exceptions -emit-llvm
+			-DUSE_MINGW_TOOLCHAIN
+			-I${CMAKE_SOURCE_DIR}/src/kumir2-libs
+			-o ${SHARE_PATH}/llvmcodegenerator/stdlib.bc
+			${CMAKE_CURRENT_SOURCE_DIR}/stdlib_c.cpp
+	)
 else()
-    find_program(Clang_EXECUTABLE NAMES clang PATHS ${LLVM_ROOT} ${LLVM_ROOT}/bin)
-    add_custom_command(
-        OUTPUT ${SHARE_PATH}/llvmcodegenerator/stdlib.bc
-        DEPENDS stdlib_c.h stdlib_c.cpp
-        COMMAND ${Clang_EXECUTABLE} -c -std=c++0x -emit-llvm
-            -I${CMAKE_SOURCE_DIR}/src/shared
-            -o ${SHARE_PATH}/llvmcodegenerator/stdlib.bc
-            ${CMAKE_CURRENT_SOURCE_DIR}/stdlib_c.cpp
-    )
-    add_custom_target(llvm-stdlib ALL DEPENDS ${SHARE_PATH}/llvmcodegenerator/stdlib.bc)
-    if(CMAKE_BUILD_TYPE MATCHES Debug)
-    add_custom_command(
-        OUTPUT ${SHARE_PATH}/llvmcodegenerator/stdlib_debug.o
-        DEPENDS stdlib_c.h stdlib_c.cpp
-        COMMAND ${Clang_EXECUTABLE} -c -g -std=c++0x -DSTDLIB_DEBUG
-            -I${CMAKE_SOURCE_DIR}/src/shared
-            -o ${SHARE_PATH}/llvmcodegenerator/stdlib_debug.o
-            ${CMAKE_CURRENT_SOURCE_DIR}/stdlib_c.cpp
-    )
-    add_custom_target(llvm-stdlib-debug ALL DEPENDS ${SHARE_PATH}/llvmcodegenerator/stdlib_debug.o)
-    endif()
+	find_program(Clang_EXECUTABLE NAMES clang PATHS ${LLVM_ROOT} ${LLVM_ROOT}/bin)
+	add_custom_command(
+		OUTPUT ${SHARE_PATH}/llvmcodegenerator/stdlib.bc
+		DEPENDS stdlib_c.h stdlib_c.cpp
+		COMMAND ${Clang_EXECUTABLE} -c -std=c++0x -emit-llvm
+			-I${CMAKE_SOURCE_DIR}/src/kumir2-libs
+			-o ${SHARE_PATH}/llvmcodegenerator/stdlib.bc
+			${CMAKE_CURRENT_SOURCE_DIR}/stdlib_c.cpp
+	)
+	add_custom_target(llvm-stdlib ALL DEPENDS ${SHARE_PATH}/llvmcodegenerator/stdlib.bc)
+	if(CMAKE_BUILD_TYPE MATCHES Debug)
+		add_custom_command(
+			OUTPUT ${SHARE_PATH}/llvmcodegenerator/stdlib_debug.o
+			DEPENDS stdlib_c.h stdlib_c.cpp
+			COMMAND ${Clang_EXECUTABLE} -c -g -std=c++0x -DSTDLIB_DEBUG
+				-I${CMAKE_SOURCE_DIR}/src/kumir2-libs
+				-o ${SHARE_PATH}/llvmcodegenerator/stdlib_debug.o
+				${CMAKE_CURRENT_SOURCE_DIR}/stdlib_c.cpp
+		)
+		add_custom_target(llvm-stdlib-debug ALL DEPENDS ${SHARE_PATH}/llvmcodegenerator/stdlib_debug.o)
+	endif()
 endif(WIN32)
 
-file(MAKE_DIRECTORY ${SHARE_PATH}/llvmcodegenerator)
+#file(MAKE_DIRECTORY ${SHARE_PATH}/llvmcodegenerator)
+#install(TARGETS LLVMCodeGenerator DESTINATION ${PLUGINS_DIR})
+install(FILES ${SHARE_PATH}/llvmcodegenerator/stdlib.bc DESTINATION ${KUMIR2_RESOURCES_DIR}/llvmcodegenerator)
 
-install(TARGETS LLVMCodeGenerator DESTINATION ${PLUGINS_DIR})
-install(FILES ${SHARE_PATH}/llvmcodegenerator/stdlib.bc DESTINATION ${RESOURCES_DIR}/llvmcodegenerator)
+message("KUMIR2_RESOURCES_DIR: ${KUMIR2_RESOURCES_DIR}")
+message("CMAKE_CURRENT_BINARY_DIR: ${CMAKE_CURRENT_BINARY_DIR}")
+message("SHARE_PATH: ${SHARE_PATH}")

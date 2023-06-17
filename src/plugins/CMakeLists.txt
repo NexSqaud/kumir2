@@ -8,6 +8,6 @@ add_opt_subdirectory(kumircodegenerator)
 add_opt_subdirectory(kumircoderun)
 add_opt_subdirectory(kumircompilertool)
 
-#add_opt_subdirectory(llvmcodegenerator)
+add_opt_subdirectory(llvmcodegenerator)
 #add_opt_subdirectory(python3language)
 

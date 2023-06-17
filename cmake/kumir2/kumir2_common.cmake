@@ -16,9 +16,16 @@ else()
     endif()
 endif()
 
+
 if(NOT DEFINED KUMIR2_INSTALL_PREFIX)
     set(KUMIR2_INSTALL_PREFIX "/usr")
 endif(NOT DEFINED KUMIR2_INSTALL_PREFIX)
+
+macro(copySpecFile pluginName)
+    file(COPY ${pluginName}.pluginspec DESTINATION ${PLUGIN_OUTPUT_PATH})
+    install(FILES ${PLUGIN_OUTPUT_PATH}/${pluginName}.pluginspec DESTINATION ${PLUGINS_DIR})
+endmacro(copySpecFile)
+
 
 function(add_opt_subdirectory SUBDIR_NAME)
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/${SUBDIR_NAME})
@@ -231,6 +238,7 @@ function(kumir2_add_plugin)
     add_library(${PARSED_ARGS_NAME} SHARED ${PARSED_ARGS_SOURCES})
     if(PARSED_ARGS_LIBRARIES)
         target_link_libraries(${PARSED_ARGS_NAME} ${PARSED_ARGS_LIBRARIES})
+		message("${PARSED_ARGS_NAME} dependecies: ${PARSED_ARGS_LIBRARIES}")
     endif(PARSED_ARGS_LIBRARIES)
     set_property(TARGET ${PARSED_ARGS_NAME} APPEND PROPERTY COMPILE_FLAGS "${KUMIR2_CXXFLAGS} ${KUMIR2_CXXFLAGS_${CMAKE_BUILD_TYPE}}")
     set_property(TARGET ${PARSED_ARGS_NAME} APPEND PROPERTY LINK_FLAGS "${KUMIR2_PLUGIN_LINKER_FLAGS}")

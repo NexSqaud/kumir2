@@ -24,7 +24,7 @@ Build requirements (Linux)
 5. Boost 1.54.0 development files. Required Boost files are bundled into
 this repository, but you can use your distribution provided package by 
 deleting `src/3rdparty/boost-1.54.0`
-6. LLVM development files version at least 3.4 are optional to build native code
+6. LLVM development files version [3.5, 3.7, 3.8, 11.0] are optional to build native code
 generation feauture
 7. Python development files at least 3.2 in case of building branch `python`
 

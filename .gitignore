@@ -34,3 +34,5 @@ __pycache__
 /userdocs/*.aux
 /userdocs/*.out
 *.log
+build/
+
