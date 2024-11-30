@@ -12,7 +12,7 @@ def to_str(x):
     if isinstance(x, str):
         return x
     else:
-        return x.decode("utf-8")
+        return x.decode()
 
 
 OUT_FILE = sys.stdout
