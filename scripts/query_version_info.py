@@ -8,7 +8,7 @@ from urllib.parse import unquote
 
 
 def to_str(x):
-    assert isinstance(x, str) or isinstance(x, bytes)
+    assert isinstance(x, str) or isinstance(x, bytes), f"Got {type(str)} instead of string or bytes"
     if isinstance(x, str):
         return x
     else:
