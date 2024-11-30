@@ -143,7 +143,7 @@ else()
 	endif()
 endif(WIN32)
 
-#file(MAKE_DIRECTORY ${SHARE_PATH}/llvmcodegenerator)
+file(MAKE_DIRECTORY ${SHARE_PATH}/llvmcodegenerator)
 #install(TARGETS LLVMCodeGenerator DESTINATION ${PLUGINS_DIR})
 install(FILES ${SHARE_PATH}/llvmcodegenerator/stdlib.bc DESTINATION ${KUMIR2_RESOURCES_DIR}/llvmcodegenerator)
 
