@@ -120,7 +120,7 @@ if(WIN32)
 			${CMAKE_CURRENT_SOURCE_DIR}/stdlib_c.cpp
 	)
 else()
-	find_program(Clang_EXECUTABLE NAMES clang PATHS ${LLVM_ROOT} ${LLVM_ROOT}/bin)
+	find_program(Clang_EXECUTABLE NAMES clang clang-${LLVM_VERSION_MAJOR} PATHS ${LLVM_ROOT} ${LLVM_ROOT}/bin)
 	add_custom_command(
 		OUTPUT ${SHARE_PATH}/llvmcodegenerator/stdlib.bc
 		DEPENDS stdlib_c.h stdlib_c.cpp
