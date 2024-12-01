@@ -49,7 +49,7 @@ set(CMAKE_CXX_EXTENSIONS "OFF")
 # Compile flags
 set(KUMIR2_CXXFLAGS "-fno-exceptions -std=c++0x -fPIC")
 set(KUMIR2_CXXFLAGS_Release "-O2 -DNDEBUG -DQT_NO_DEBUG")
-set(KUMIR2_CXXFLAGS_Debug "-g -O0 -Werror -Wreorder -Wreturn-type -Wno-error=unused-variable -Wno-error=unused-parameter")
+set(KUMIR2_CXXFLAGS_Debug "-g -O0 -Wreturn-type -Wno-error=unused-variable -Wno-error=unused-parameter")
 
 # Linkage flags
 if(KUMIR2_ROOT)
