@@ -1,5 +1,5 @@
 #include "stdlib_c.h"
-#include <kumir2-libs/stdlib/kumirstdlib.hpp>
+#include <stdlib/kumirstdlib.hpp>
 
 #include <chrono>
 #include <iostream>
